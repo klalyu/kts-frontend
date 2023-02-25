@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  div {
+    width: 16px;
+    height: 25px;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='25' viewBox='0 0 16 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 2.2125L13.5939 0L0 12.5L13.5939 25L16 22.7875L4.81223 12.5L16 2.2125Z' fill='%23FF0000' /%3E%3C/svg%3E");
+    cursor: pointer;
+  }
+
+  span {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 23px;
+  }
+}
