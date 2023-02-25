@@ -1,0 +1,7 @@
+.stats {
+  &__item {
+    & > img {
+      vertical-align: middle;
+    }
+  }
+}

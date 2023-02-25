@@ -1,0 +1,19 @@
+@use "@styles/_extends";
+
+.cardContent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  &__stars {
+    @extend %textHint;
+    display: flex;
+    align-items: center;
+
+    & > img {
+      width: 14px;
+      height: 14px;
+      margin-right: 5px;
+    }
+  }
+}

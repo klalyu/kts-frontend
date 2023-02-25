@@ -1,0 +1,26 @@
+@use "./_variables";
+@use "./_colors";
+@use "./_extends";
+@use "./_mixins";
+@import "./Roboto/fonts";
+
+:root {
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+}
+
+html,
+body {
+  font-family: "Roboto";
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+* {
+  box-sizing: border-box;
+}
+
+main {
+  padding: 20px;
+}

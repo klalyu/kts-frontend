@@ -1,0 +1,11 @@
+%textEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+%textHint {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}

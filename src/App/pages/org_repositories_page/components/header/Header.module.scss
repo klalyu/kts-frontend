@@ -1,0 +1,33 @@
+@use "@styles/__mixins" as m;
+
+.pageHeader {
+  display: grid;
+  gap: 16px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__search {
+    @include m.desktop {
+      order: 2;
+    }
+
+    & &Btn {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  @include m.desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
