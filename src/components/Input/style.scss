@@ -1,0 +1,27 @@
+.input {
+  background: #ffffff;
+  border: 1px solid var(--color-disabled);
+  border-radius: 6px;
+  width: 295px;
+  outline: transparent;
+  padding: 16px 12px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  &:focus:not(&:disabled) {
+    border-color: var(--color-main);
+  }
+
+  &:disabled {
+    border-color: var(--color-disabled);
+    background-color: var(--color-disabled-2);
+    color: var(--color-second);
+    width: 370px;
+  }
+
+  &::placeholder {
+    color: var(--color-second);
+    opacity: 1;
+  }
+}

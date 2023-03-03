@@ -1,0 +1,10 @@
+@use "@styles/__mixins" as m;
+
+.cardList {
+  display: grid;
+  gap: 16px;
+
+  @include m.desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
