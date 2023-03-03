@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { useNavigate } from "react-router-dom";
 
 import s from "./Header.module.scss";
 
@@ -7,11 +7,11 @@ type HeaderProps = {
   organization: string;
 };
 const Header: React.FC<HeaderProps> = ({ organization, title }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={s.header}>
-      <Link href={`/org/${organization}`}>
-        <div></div>
-      </Link>
+      <div onClick={() => navigate(`/repositories/${organization}`)}></div>
       <span>{title}</span>
     </div>
   );

@@ -3,11 +3,13 @@
 .pageHeader {
   display: grid;
   gap: 16px;
+  margin-bottom: 10px;
 
   &__row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
   }
 
   &__search {
@@ -25,6 +27,10 @@
     font-weight: 700;
     font-size: 24px;
     line-height: 28px;
+  }
+
+  input {
+    flex-grow: 1;
   }
 
   @include m.desktop {
