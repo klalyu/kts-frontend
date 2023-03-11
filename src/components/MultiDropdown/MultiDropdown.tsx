@@ -47,6 +47,7 @@ export const MultiDropdown: React.FC<MultiDropdownProps> = ({
       selectedValues.splice(index, 1);
     }
 
+    setopen(!open);
     onChange(selectedValues);
     setkeyComponent(selectedValues.length);
   };

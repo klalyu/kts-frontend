@@ -1,4 +1,7 @@
+import React from "react";
+
 import s from "./Topic.module.scss";
+
 type TopicProps = {
   text: string;
 };

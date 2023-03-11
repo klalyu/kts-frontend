@@ -5,6 +5,7 @@ import axios, { isAxiosError } from "axios";
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
   reaction,
@@ -18,18 +19,18 @@ import {
 } from "../models";
 
 export enum Meta {
-  IsLoading = 1,
-  Success = 2,
-  NotFound = 4,
+  IsLoading = "loading",
+  Success = "success",
+  NotFound = "not found",
+  Initial = "initial",
 }
 
-type PrivateFields = "_list" | "_meta" | "_org" | "_pageCount" | "_currentPage";
+type PrivateFields = "_list" | "_meta" | "_org" | "_pageCount";
 
 export default class RepoListStore implements ILocalStore {
   private _list: RepoListItemModel[] = [];
   private _pageCount = 1;
-  private _currentPage = 1;
-  private _meta: Meta = Meta.IsLoading;
+  private _meta: Meta = Meta.Initial;
   private _org = "";
 
   constructor() {
@@ -38,34 +39,31 @@ export default class RepoListStore implements ILocalStore {
       _meta: observable,
       _org: observable,
       _pageCount: observable,
-      _currentPage: observable,
       meta: computed,
       list: computed,
       pageCount: computed,
       setRepoOwner: action,
     });
-
-    reaction(
-      () => this._org,
-      () => {
-        this.getRepoList(this._org);
-      }
-    );
-
-    reaction(
-      () => rootStore.query.getParam("page"),
-      () => {
-        this.setCurrentPage(+(rootStore.query.getParam("page") || 1));
-      }
-    );
-
-    reaction(
-      () => this._currentPage,
-      () => {
-        this.getRepoList(this._org);
-      }
-    );
   }
+
+  private readonly _changeOrgHandler: IReactionDisposer = reaction(
+    () => this._org,
+    () => {
+      this.getRepoList();
+    }
+  );
+  private readonly _changePageHandler: IReactionDisposer = reaction(
+    () => rootStore.query.getParam("page"),
+    () => {
+      this.getRepoList();
+    }
+  );
+  private readonly _changeTypeRepoHandler: IReactionDisposer = reaction(
+    () => rootStore.query.getParam("type"),
+    () => {
+      this.getRepoList();
+    }
+  );
 
   get list(): RepoListItemModel[] {
     return this._list;
@@ -83,23 +81,29 @@ export default class RepoListStore implements ILocalStore {
     this._org = org;
   }
 
-  setCurrentPage(page: number): void {
-    this._currentPage = page;
-  }
-
-  async getRepoList(org: string): Promise<void> {
+  async getRepoList(): Promise<void> {
+    if (this._meta === Meta.IsLoading) {
+      return;
+    }
     this._meta = Meta.IsLoading;
     const page = rootStore.query.getParam("page") || 1;
+    const typeRepos = rootStore.query.getParam("type") || "all";
 
     try {
       const response = await axios.get<RepoListItemApi[]>(
-        `${BASE_URL}/orgs/${org}/repos?page=${page}&sort=updated`
+        `${BASE_URL}/orgs/${this._org}/repos?page=${page}&type=${typeRepos}&sort=updated`
       );
-      const urls = (response.headers.link || "").match(/page=.*?(&|>)/g);
-      const isLastPage = !(response.headers.link || "").includes('rel="last"');
-      const pageArr = urls
-        .map((pageParam: string) => pageParam.replace(/(page=|&|>)/g, ""))
-        .map((pageString: string) => +pageString);
+
+      let isLastPage = false;
+      let pageArr: number[] = [1];
+      if (response.headers.link) {
+        const urls = (response.headers.link || "").match(/page=.*?(&|>)/g);
+        isLastPage = !(response.headers.link || "").includes('rel="last"');
+        pageArr = urls
+          .map((pageParam: string) => pageParam.replace(/(page=|&|>)/g, ""))
+          .map((pageString: string) => +pageString);
+      }
+
       runInAction(() => {
         this._meta = Meta.Success;
         this._list = response.data.map((repos) => normalizeRepoListItem(repos));
@@ -116,5 +120,9 @@ export default class RepoListStore implements ILocalStore {
     }
   }
 
-  destroy(): void {}
+  destroy(): void {
+    this._changeOrgHandler();
+    this._changePageHandler();
+    this._changeTypeRepoHandler();
+  }
 }

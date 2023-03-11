@@ -31,7 +31,12 @@ export default class QueryParamsStore {
 
     if (search !== this._search) {
       this._search = search;
-      this._params = qs.parse(search);
+      const queryParams = qs.parse(search);
+
+      if (Array.isArray(queryParams?.type)) {
+        queryParams.type = queryParams.type[0];
+      }
+      this._params = queryParams;
     }
   }
 }

@@ -1,3 +1,5 @@
+import React from "react";
+
 import Metadata from "./components/metadata";
 import Readme from "./components/readme";
 

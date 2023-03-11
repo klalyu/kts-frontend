@@ -1,3 +1,5 @@
+import React from "react";
+
 import { pluralizeWord } from "@utils/formatter";
 
 import s from "./Stats.module.scss";

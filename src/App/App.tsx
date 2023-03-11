@@ -1,8 +1,8 @@
-import "@styles/style.scss";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import OrgRepositoriesPage from "./pages/org_repositories_page";
-import RepositoryPage from "./pages/repository_page/RepositoryPage";
+import OrgRepositoriesPage from "@pages/org_repositories_page";
+import RepositoryPage from "@pages/repository_page/RepositoryPage";
 
 function App() {
   return (

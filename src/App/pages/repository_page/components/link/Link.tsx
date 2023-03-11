@@ -1,3 +1,5 @@
+import React from "react";
+
 import s from "./Link.module.scss";
 
 type LinkProps = {

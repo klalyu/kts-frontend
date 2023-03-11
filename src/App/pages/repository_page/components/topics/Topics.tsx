@@ -1,3 +1,5 @@
+import React from "react";
+
 import Topic from "@components/Topic";
 
 import s from "./Topics.module.scss";

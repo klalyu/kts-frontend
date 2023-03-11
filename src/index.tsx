@@ -1,10 +1,10 @@
 import React from "react";
-
 import ReactDOM from "react-dom/client";
+import "regenerator-runtime";
 
-import "@config/configureMobX";
 import App from "./App/App";
-import "./index.css";
+
+import "@styles/style.scss";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,3 +15,7 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+if (module.hot) {
+  module.hot.accept();
+}

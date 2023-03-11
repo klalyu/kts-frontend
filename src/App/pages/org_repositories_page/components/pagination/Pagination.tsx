@@ -17,10 +17,15 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount }) => {
 
   const pages = new Array(pageCount).fill(1);
 
+  if (pageCount < 2) {
+    return <></>;
+  }
+
   return (
     <div className={s.pagination}>
       {pages.map((p, i) => (
         <Button
+          className={s.pagination__button}
           key={i}
           disabled={i + 1 === +currentPage}
           onClick={() =>

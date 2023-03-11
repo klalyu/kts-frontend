@@ -1,9 +1,13 @@
 import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import debounce from "lodash.debounce";
 
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/Input";
 import { MultiDropdown } from "@components/MultiDropdown";
-import { useNavigate, useParams } from "react-router-dom";
+import { Option } from "@components/MultiDropdown/MultiDropdown";
+import { DEBOUNCE_TIME_MS } from "@config/constants";
+import rootStore from "@store/root_store/instance";
 
 import s from "./Header.module.scss";
 
@@ -12,14 +16,33 @@ const SearchOrganization = () => {
   const [search, setsearch] = React.useState<string>(org || "");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/repositories/${search.trim()}`);
+    handleSubmit();
   };
+
+  const handleSubmit = () => {
+    if (org !== search.trim()) {
+      navigate(`/repositories/${search.trim()}`);
+    }
+  };
+
+  const debouncedEventHandler = React.useMemo(
+    () => debounce(handleSubmit, DEBOUNCE_TIME_MS),
+    [search]
+  );
+
+  React.useEffect(() => {
+    debouncedEventHandler();
+
+    return () => {
+      debouncedEventHandler.cancel();
+    };
+  }, [search]);
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmitForm}
       className={`${s.pageHeader__row} ${s.pageHeader__search}`}
     >
       <Input
@@ -30,11 +53,75 @@ const SearchOrganization = () => {
       <Button
         className={s.pageHeader__searchBtn}
         disabled={!search.trim()}
-        onClick={() => navigate(`/repositories/${search.trim()}`)}
+        onClick={() => handleSubmit()}
       >
         <img src="/images/search.svg" alt="star-rating" />
       </Button>
     </form>
+  );
+};
+
+// Can be one of: all, public, private, forks, sources, member
+const filterTypeRepoItems: Option[] = [
+  {
+    key: "all",
+    value: "All repos",
+  },
+  {
+    key: "public",
+    value: "Public repos",
+  },
+  {
+    key: "private",
+    value: "Private repos",
+  },
+  {
+    key: "forks",
+    value: "Forks",
+  },
+  {
+    key: "sources",
+    value: "Sources",
+  },
+  {
+    key: "member",
+    value: "Member",
+  },
+];
+
+const FilterTypeRepo = () => {
+  const { org } = useParams();
+  const typeRepo = rootStore.query.getParam("type");
+  const navigate = useNavigate();
+
+  return (
+    <MultiDropdown
+      options={filterTypeRepoItems}
+      value={filterTypeRepoItems.filter((item) => item.key === typeRepo)}
+      onChange={(values) => {
+        if (values.length > 1) {
+          navigate(
+            `/repositories/${org}?${rootStore.query.prepareSearch({
+              page: "1",
+              type: values.filter((typeValue) => typeValue.key !== typeRepo)[0]
+                .key,
+            })}`
+          );
+        } else {
+          navigate(
+            `/repositories/${org}?${rootStore.query.prepareSearch({
+              page: "1",
+              type: values.length ? values[0].key : "all",
+            })}`
+          );
+        }
+      }}
+      pluralizeOptions={(values) =>
+        values.length === 0
+          ? "Type"
+          : values.map((value) => value.value).join(",")
+      }
+    />
   );
 };
 
@@ -44,16 +131,7 @@ const Header = () => {
       <SearchOrganization />
       <div className={`${s.pageHeader__row}`}>
         <span className={`${s.pageHeader__title}`}>Repositories</span>
-        <MultiDropdown
-          options={[]}
-          value={[]}
-          onChange={() => {}}
-          pluralizeOptions={(values) =>
-            values.length === 0
-              ? "Type"
-              : values.map((value) => value.value).join(",")
-          }
-        />
+        <FilterTypeRepo />
       </div>
     </div>
   );

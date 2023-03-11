@@ -4,6 +4,7 @@ import axios from "axios";
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
   reaction,
@@ -16,18 +17,13 @@ import {
   RepoItemApi,
 } from "./../models/repoItem";
 import { RepoItemModel } from "../models";
-
-export enum Meta {
-  IsLoading = 1,
-  Success = 2,
-  NotFound = 4,
-}
+import { Meta } from "@store/repo_list_store/RepoListStore";
 
 type PrivateFields = "_repoData" | "_meta" | "_org" | "_repoName";
 
 export default class RepoItemStore implements ILocalStore {
   private _repoData: RepoItemModel = defaultRepoItem();
-  private _meta: Meta = Meta.IsLoading;
+  private _meta: Meta = Meta.Initial;
   private _org = "";
   private _repoName = "";
 
@@ -41,12 +37,12 @@ export default class RepoItemStore implements ILocalStore {
       repoData: computed,
       setRepoParams: action,
     });
-
-    reaction(
-      () => this._org,
-      () => this.getRepoData(this._org, this._repoName)
-    );
   }
+
+  private readonly _orgChangeHandlerReaction: IReactionDisposer = reaction(
+    () => this._org,
+    () => this.getRepoData(this._org, this._repoName)
+  );
 
   get repoData(): RepoItemModel {
     return this._repoData;
@@ -79,5 +75,7 @@ export default class RepoItemStore implements ILocalStore {
     }
   }
 
-  destroy(): void {}
+  destroy(): void {
+    this._orgChangeHandlerReaction();
+  }
 }

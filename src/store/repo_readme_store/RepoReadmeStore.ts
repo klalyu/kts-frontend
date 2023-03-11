@@ -11,6 +11,7 @@ import axios from "axios";
 import {
   action,
   computed,
+  IReactionDisposer,
   makeObservable,
   observable,
   reaction,
@@ -35,12 +36,12 @@ export default class RepoReadmeStore implements ILocalStore {
       readme: computed,
       setRepoParams: action,
     });
-
-    reaction(
-      () => this._org,
-      () => this.getRepoReadme(this._org, this._repoName)
-    );
   }
+
+  private readonly _readmeHandlerReaction: IReactionDisposer = reaction(
+    () => this._org,
+    () => this.getRepoReadme(this._org, this._repoName)
+  );
 
   get readme(): RepoReadmeModel {
     return this._readme;
@@ -79,5 +80,7 @@ export default class RepoReadmeStore implements ILocalStore {
     }
   }
 
-  destroy(): void {}
+  destroy(): void {
+    this._readmeHandlerReaction();
+  }
 }

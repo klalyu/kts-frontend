@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Card } from "@components/Card";
 import { WithLoader } from "@components/WithLoader/WithLoader";
@@ -12,7 +12,6 @@ import CardContent from "../card_content";
 import Pagination from "../pagination";
 
 const CardList: React.FC = () => {
-  useQueryParamsStore();
   const { org } = useParams();
   const navigate = useNavigate();
   const repoListStore = useLocalStore(() => new RepoListStore());

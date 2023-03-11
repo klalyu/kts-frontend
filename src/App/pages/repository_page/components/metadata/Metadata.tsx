@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { observer, useLocalStore } from "mobx-react-lite";
 
 import { WithLoader } from "@components/WithLoader/WithLoader";
 import RepoItemStore from "@store/repo_item_store";
-import { Meta } from "@store/repo_item_store/RepoItemStore";
+import { Meta } from "@store/repo_list_store/RepoListStore";
 import { urlHostWithPath } from "@utils/formatter";
-import { observer, useLocalStore } from "mobx-react-lite";
-import { useParams } from "react-router-dom";
-
-import s from "./Metadata.module.scss";
 import Header from "../header";
 import Link from "../link";
 import Stats from "../stats";
 import Topics from "../topics";
+
+import s from "./Metadata.module.scss";
 
 const Metadata: React.FC = () => {
   const { org, repoName } = useParams();
