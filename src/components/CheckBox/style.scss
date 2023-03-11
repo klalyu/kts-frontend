@@ -1,0 +1,35 @@
+.checkbox {
+  position: relative;
+  width: 30px;
+  height: 30px;
+
+  input {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    display: inline-block;
+    border: 1px solid var(--color-disabled);
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+  }
+
+  &:focus:not(&_disabled),
+  &:hover:not(&_disabled) {
+    &::before {
+      border-color: var(--color-main);
+    }
+  }
+
+  &_disabled {
+    opacity: 0.7;
+  }
+
+  &__check {
+    position: absolute;
+    top: 3px;
+    left: 7px;
+  }
+}

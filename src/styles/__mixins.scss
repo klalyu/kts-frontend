@@ -1,0 +1,35 @@
+@use "./_variables" as v;
+
+@mixin desktop {
+  @media (min-width: #{v.$desktopWidth}) {
+    @content;
+  }
+}
+
+@mixin paginationDots($type) {
+  margin-#{$type}: 30px;
+  position: relative;
+  display: inline-flex;
+  width: 0;
+  padding: 0;
+  pointer-events: none;
+
+  &::after {
+    content: "...";
+    position: absolute;
+    #{$type}: -23px;
+    bottom: 0;
+    color: var(--color-second);
+    pointer-events: none;
+  }
+}
+
+@mixin paginationDotsClear() {
+  width: 150px;
+  pointer-events: all;
+  margin: 0;
+
+  &::after {
+    display: none;
+  }
+}
