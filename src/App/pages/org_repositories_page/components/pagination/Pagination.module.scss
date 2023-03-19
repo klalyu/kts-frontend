@@ -1,0 +1,35 @@
+@use "@styles/__mixins.scss" as m;
+
+.pagination {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px 0;
+
+  &__button {
+    display: none;
+
+    &:first-child,
+    &:last-child,
+    &:disabled {
+      display: inline-flex;
+    }
+
+    &:first-child:not(:disabled) + &:not(:disabled) {
+      @include m.paginationDots("right");
+    }
+    &:first-child:not(:disabled) + &:not(:disabled):has(+ :disabled) {
+      @include m.paginationDotsClear();
+    }
+    &:disabled + & + &:not(&:last-child) {
+      @include m.paginationDots("left");
+    }
+
+    &:has(+ :disabled) {
+      display: inline-flex;
+    }
+    &:disabled + & {
+      display: inline-flex;
+    }
+  }
+}

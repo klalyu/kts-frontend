@@ -1,0 +1,11 @@
+.topic {
+  display: inline-flex;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--color-topic);
+  background-color: var(--color-bg-topic);
+  white-space: nowrap;
+}
