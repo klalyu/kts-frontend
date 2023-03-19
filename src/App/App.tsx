@@ -1,24 +1,33 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import OrgRepositoriesPage from "@pages/org_repositories_page";
-import RepositoryPage from "@pages/repository_page/RepositoryPage";
+import { Loader } from "@components/Loader/Loader";
+
+const OrgRepositoriesPage = React.lazy(
+  () => import("@pages/org_repositories_page")
+);
+const RepositoryPage = React.lazy(() => import("@pages/repository_page"));
 
 function App() {
   return (
     <main>
       <BrowserRouter>
-        <Routes>
-          <Route
-            path="/repositories/:org/:repoName"
-            element={<RepositoryPage />}
-          />
-          <Route path="/repositories/:org" element={<OrgRepositoriesPage />} />
-          <Route
-            path="*"
-            element={<Navigate to="/repositories/ktsstudio" replace />}
-          />
-        </Routes>
+        <React.Suspense fallback={<Loader />}>
+          <Routes>
+            <Route
+              path="/repositories/:org/:repoName"
+              element={<RepositoryPage />}
+            />
+            <Route
+              path="/repositories/:org"
+              element={<OrgRepositoriesPage />}
+            />
+            <Route
+              path="*"
+              element={<Navigate to="/repositories/ktsstudio" replace />}
+            />
+          </Routes>
+        </React.Suspense>
       </BrowserRouter>
     </main>
   );

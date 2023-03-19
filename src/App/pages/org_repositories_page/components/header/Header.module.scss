@@ -12,25 +12,10 @@
     gap: 10px;
   }
 
-  &__search {
-    @include m.desktop {
-      order: 2;
-    }
-
-    & &Btn {
-      width: 50px;
-      height: 50px;
-    }
-  }
-
   &__title {
     font-weight: 700;
     font-size: 24px;
     line-height: 28px;
-  }
-
-  input {
-    flex-grow: 1;
   }
 
   @include m.desktop {

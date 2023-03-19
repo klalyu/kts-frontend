@@ -1,0 +1,14 @@
+@use "@styles/__mixins.scss" as m;
+
+.search {
+  @include m.desktop {
+    order: 2;
+  }
+}
+.searchInput {
+  flex-grow: 1;
+}
+.searchBtn {
+  width: 50px;
+  height: 50px;
+}
