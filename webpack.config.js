@@ -45,7 +45,6 @@ module.exports = {
   output: {
     path: buildPath,
     filename: "bundle.js",
-    publicPath: '/',
     clean: true,
   },
   plugins: [

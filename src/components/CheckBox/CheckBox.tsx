@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import classNames from "classnames";
 
 import "./style.scss";
+import checkImg from "@assets/images/check.svg";
 
 export type CheckBoxProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -41,7 +42,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({
         checked={isChecked}
       />
       {isChecked && (
-        <img src="/images/check.svg" alt="arrow" className="checkbox__check" />
+        <img src={checkImg} alt="arrow" className="checkbox__check" />
       )}
     </div>
   );

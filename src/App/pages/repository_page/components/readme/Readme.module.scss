@@ -4,6 +4,7 @@
   border: 1px solid var(--color-disabled);
   display: grid;
   gap: 12px;
+  overflow: auto;
 
   &__name {
     font-weight: 700;

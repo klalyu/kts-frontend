@@ -8,6 +8,7 @@ import { Input } from "@components/Input";
 import { DEBOUNCE_TIME_MS } from "@config/constants";
 
 import s from "./Search.module.scss";
+import searchImg from "@assets/images/search.svg";
 
 type SearchProps = {
   className: string;
@@ -58,7 +59,7 @@ const Search: React.FC<SearchProps> = ({ className }) => {
         disabled={!search.trim()}
         onClick={() => handleSubmit()}
       >
-        <img src="/images/search.svg" alt="star-rating" />
+        <img src={searchImg} alt="star-rating" />
       </Button>
     </form>
   );

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import classNames from "classnames";
 
 import s from "./MultiDropdown.module.scss";
+import arrowImg from "@assets/images/dropdown_arrow.svg";
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -65,7 +66,7 @@ export const MultiDropdown: React.FC<MultiDropdownProps> = ({
       >
         {pluralizeOptions(value)}
         <img
-          src="/images/dropdown_arrow.svg"
+          src={arrowImg}
           alt="arrow"
           className={s["multi-dropdown__arrow"]}
         />

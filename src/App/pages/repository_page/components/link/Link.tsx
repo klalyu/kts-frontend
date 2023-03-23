@@ -1,6 +1,7 @@
 import React from "react";
 
 import s from "./Link.module.scss";
+import linkImg from "@assets/images/link.svg";
 
 type LinkProps = {
   url: string;
@@ -9,7 +10,7 @@ type LinkProps = {
 const Link: React.FC<LinkProps> = ({ url, text }) => {
   return (
     <div className={s.link}>
-      <img src="/images/link.svg" alt="link" />
+      <img src={linkImg} alt="link" />
       <span>
         <a href={url} target="_blank" rel="noopener noreferrer">
           {text}

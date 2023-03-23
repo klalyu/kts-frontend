@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  HashRouter,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import { Loader } from "@components/Loader/Loader";
 
@@ -11,7 +17,7 @@ const RepositoryPage = React.lazy(() => import("@pages/repository_page"));
 function App() {
   return (
     <main>
-      <BrowserRouter>
+      <HashRouter>
         <React.Suspense fallback={<Loader />}>
           <Routes>
             <Route
@@ -28,7 +34,7 @@ function App() {
             />
           </Routes>
         </React.Suspense>
-      </BrowserRouter>
+      </HashRouter>
     </main>
   );
 }

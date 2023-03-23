@@ -3,6 +3,9 @@ import React from "react";
 import { pluralizeWord } from "@utils/formatter";
 
 import s from "./Stats.module.scss";
+import starImg from "@assets/images/star.svg";
+import forkImg from "@assets/images/fork.svg";
+import eyeImg from "@assets/images/eye.svg";
 
 type StatItemProps = {
   type: "star" | "fork" | "eye";
@@ -18,7 +21,11 @@ type StatsProps = {
 const StatItem: React.FC<StatItemProps> = ({ type, metric, count }) => {
   return (
     <div className={s.stats__item}>
-      <img src={`/images/${type}.svg`} alt={metric} /> {count} {metric}
+      <img
+        src={type === "eye" ? eyeImg : type === "fork" ? forkImg : starImg}
+        alt={metric}
+      />{" "}
+      {count} {metric}
     </div>
   );
 };
